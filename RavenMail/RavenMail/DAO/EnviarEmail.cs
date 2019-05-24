@@ -4,14 +4,22 @@ using System.Linq;
 using System.Web;
 using System.Net.Configuration;
 using System.Net.Mail;
+using System.Configuration;
+using RavenMail.Model;
 
 namespace RavenMail
 {
     public class EnviarEmail
     {
 
+        public String emailDoUsuario(int id)
+        {
 
-        public void enviarEmail()
+            return null;
+        }
+
+        [System.Web.Services.WebMethod]
+        public static void enviarEmail(UsuarioModel contratante, UsuarioModel prestador)
         {
 
             MailMessage mail = new MailMessage();
