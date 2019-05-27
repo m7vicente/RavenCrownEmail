@@ -11,14 +11,5 @@ namespace RavenMail {
     
     
     public partial class _Default {
-        
-        /// <summary>
-        /// Controle respostaEnvioLabel.
-        /// </summary>
-        /// <remarks>
-        /// Campo gerado automaticamente.
-        /// Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label respostaEnvioLabel;
     }
 }

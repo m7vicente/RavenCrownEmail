@@ -13,7 +13,7 @@ namespace RavenMail
 {
     public class EnviarEmail
     {
-        public static String emailDoUsuario(int id)
+        private static String emailDoUsuario(int id)
         {
             SqlConnection conn = new SqlConnection(@"Server=tcp:robertocadillac.database.windows.net,1433;Initial Catalog=DANTE;Persist Security Info=False;User ID=orei;Password=3u.t3.4amo;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
 
@@ -35,8 +35,8 @@ namespace RavenMail
             }
         }
 
-        [System.Web.Services.WebMethod]
-        public static void enviarEmail(int idPrestador, int idContratante)
+        
+        internal bool enviarEmail(int idPrestador, int idContratante)
         {
 
             MailMessage mail = new MailMessage();
@@ -77,19 +77,12 @@ namespace RavenMail
             try
 
             {
-
                 client.Send(mail);
+                return true;
 
-                //respostaEnvioLabel.Text = "Envio do E-mail com sucesso";
-
-            }
-
-            catch (Exception ex)
-
+            }catch (Exception ex)
             {
-
-                //respostaEnvioLabel.Text = "Ocorreu um erro ao enviar:" + ex.Message;
-
+                return false;
             }
 
         }
