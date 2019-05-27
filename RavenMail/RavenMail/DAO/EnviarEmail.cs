@@ -6,27 +6,46 @@ using System.Net.Configuration;
 using System.Net.Mail;
 using System.Configuration;
 using RavenMail.Model;
+using System.Data.SqlClient;
+using System.Data;
 
 namespace RavenMail
 {
     public class EnviarEmail
     {
-
-        public String emailDoUsuario(int id)
+        public static String emailDoUsuario(int id)
         {
+            SqlConnection conn = new SqlConnection(@"Server=tcp:robertocadillac.database.windows.net,1433;Initial Catalog=DANTE;Persist Security Info=False;User ID=orei;Password=3u.t3.4amo;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
 
-            return null;
+            using (conn)
+            {
+                conn.Open();
+
+                using (SqlCommand cmd = new SqlCommand(@"SELECT email_usuario FROM tbd_usuario 
+                                                    WHERE id_usuario = @id", conn))
+                {
+                    cmd.Parameters.AddWithValue("@id", id);
+
+                    using (SqlDataReader dr = cmd.ExecuteReader())
+                    {
+                        dr.Read();
+                        return dr["email_usuario"].ToString();
+                    }
+                }
+            }
         }
 
         [System.Web.Services.WebMethod]
-        public static void enviarEmail(UsuarioModel contratante, UsuarioModel prestador)
+        public static void enviarEmail(int idPrestador, int idContratante)
         {
 
             MailMessage mail = new MailMessage();
 
-            mail.To.Add("henri.guimaraes2015@gmail.com");
+            //mail.To.Add("henri.guimaraes2015@gmail.com");
+            mail.To.Add(emailDoUsuario(idPrestador));
+            mail.To.Add(emailDoUsuario(idContratante));
 
-            mail.From = new MailAddress("darkhuntergflad@gmail.com", "Henrique Guimarães", System.Text.Encoding.UTF8);
+            mail.From = new MailAddress("ravencrownteste@gmail.com", "Ranve Crown", System.Text.Encoding.UTF8);
 
             mail.Subject = "Assunto:Este e-mail é um teste do Asp.Net";
 
