@@ -35,6 +35,27 @@ namespace RavenMail
             }
         }
 
+        public String nomeDoUsuario(int id)
+        {
+            SqlConnection conn = new SqlConnection(@"Server=tcp:robertocadillac.database.windows.net,1433;Initial Catalog=DANTE;Persist Security Info=False;User ID=orei;Password=3u.t3.4amo;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
+
+            using (conn)
+            {
+                conn.Open();
+
+                using (SqlCommand cmd = new SqlCommand(@"SELECT nome_usuario FROM tbd_usuario 
+                                                    WHERE id_usuario = @id", conn))
+                {
+                    cmd.Parameters.AddWithValue("@id", id);
+
+                    using (SqlDataReader dr = cmd.ExecuteReader())
+                    {
+                        dr.Read();
+                        return dr["nome_usuario"].ToString();
+                    }
+                }
+            }
+        }
         
         internal bool enviarEmail(int idPrestador, int idContratante)
         {
@@ -47,11 +68,12 @@ namespace RavenMail
 
             mail.From = new MailAddress("ravencrownteste@gmail.com", "Ranve Crown", System.Text.Encoding.UTF8);
 
-            mail.Subject = "Assunto:Este e-mail é um teste do Asp.Net";
+            mail.Subject = "Assunto: Contrato finalizado com sucesso";
 
             mail.SubjectEncoding = System.Text.Encoding.UTF8;
 
-            mail.Body = "O henrique é foda";
+            mail.Body = "O contrato entre "+nomeDoUsuario(idContratante) +" e o prestador "+nomeDoUsuario(idPrestador)
+                            +"foi realizado com sucesso";
 
             mail.BodyEncoding = System.Text.Encoding.UTF8;
 
